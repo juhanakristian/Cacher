@@ -1,0 +1,99 @@
+#!/usr/bin/python
+
+import sys
+
+from PySide import QtCore
+from PySide import QtGui
+from PySide import QtDeclarative
+import os
+
+# Comment the line below if you don't want to use OpenGL for QML rendering or if it is not supported
+from PySide import QtOpenGL
+
+from PySide import QtSql
+
+from gpscompass import GPSCompass
+from sqllistmodel import SqlListModel
+from locparser import LOCParser
+
+import glob
+
+appdirectory = "/home/user/MyDocs/Cacher"
+
+def main():
+    appDir = QtCore.QDir(appdirectory)
+    if not appDir.exists():
+        QtCore.QDir("/home/user/MyDocs").mkdir("Cacher")
+
+    db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+    db.setDatabaseName(appdirectory + "/geocache.db")
+    if not db.open():
+        print "Can't open database!"
+
+    if not "caches" in db.tables():
+        query = QtSql.QSqlQuery("create table caches(id INTEGER PRIMARY KEY, \
+                                                      name VARCHAR(100),\
+                                                      cacheID VARCHAR(100),\
+                                                      latitude FLOAT,\
+                                                      longitude FLOAT,\
+                                                      found BOOLEAN,\
+                                                      added TIMESTAMP,\
+                                                      found_time TIMESTAMP)")
+        if not query.exec_():
+            print "Failed to create table, error: %s" % query.lastError()
+        del query
+    
+    #q = QtSql.QSqlQuery("insert into caches (name, latitude, longitude) values ('lol', 64, 24)")
+    #q.exec_()
+
+    app = QtGui.QApplication(sys.argv)
+    view = QtDeclarative.QDeclarativeView()
+
+    # Comment the two lines below if you don't want to use OpenGL for QML rendering or if it is not supported
+    glw = QtOpenGL.QGLWidget()
+    view.setViewport(glw)
+
+    context = view.rootContext()
+
+    #context.setContextProperty("geocaches", [{"name": "LOL", "latitude": 64, "longitude": 24}])
+    model = SqlListModel()
+    model.setTable("caches")
+    model.generate_roles()
+    model.load()
+
+
+    locfiles = glob.glob(appdirectory + "/*.loc") 
+
+    def new_caches(clist):
+        cacheids = model.cacheids()
+        newc = [lc for lc in clist if not lc["id"] in cacheids]
+        for c in newc:
+            model.add(c["name"], c["latitude"], c["longitude"], c["id"])
+        print newc
+
+    parser = LOCParser()
+    parser.parsed_locations.connect(new_caches)
+
+    #cachenames = model.cachenames()
+    for locfile in locfiles:
+        f = open(locfile)
+        xml = ' '.join(f.readlines())
+        print xml
+        parser.parse(xml)
+        
+
+    compass = GPSCompass()
+
+    context.setContextProperty("compass", compass)
+    context.setContextProperty("geocaches", model)
+
+    if os.path.exists('/usr/share/cacher/qml'):
+        view.setSource('/usr/share/cacher/qml/main.qml')
+    else:
+        view.setSource(os.path.join('qml','main.qml'))
+
+    view.showFullScreen()
+    sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    main()

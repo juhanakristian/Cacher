@@ -1,0 +1,9 @@
+<aegis>
+    <request>
+        <credential name="Location" />
+        <credential name="GRP::metadata-users" />
+        <credential name="TrackerReadAccess" />
+        <credential name="TrackerWriteAccess" />
+        <for path="/usr/bin/cacher" />
+    </request>
+</aegis>
