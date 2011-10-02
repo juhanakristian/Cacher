@@ -74,7 +74,6 @@ def main():
     parser = LOCParser()
     parser.parsed_locations.connect(new_caches)
 
-    #cachenames = model.cachenames()
     for locfile in locfiles:
         f = open(locfile)
         xml = ' '.join(f.readlines())

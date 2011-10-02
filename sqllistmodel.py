@@ -7,7 +7,6 @@ class SqlListModel(QtSql.QSqlTableModel):
         QtSql.QSqlTableModel.__init__(self)
         self.roles = dict()
         self.cache = dict()
-        #self.tableName = tableName
 
     def generate_roles(self):
         self.roles = dict()
@@ -27,9 +26,6 @@ class SqlListModel(QtSql.QSqlTableModel):
         t = self.cache[index.row()]
 
         if role in t.keys():
-            print index.row()
-            print t[role]
-            print role
             return t[role];
 
         return None
@@ -51,23 +47,18 @@ class SqlListModel(QtSql.QSqlTableModel):
 
     @QtCore.Slot(str, float, float)
     def add(self, name, latitude, longitude, cacheid=""):
-        print "Adding cache:", name
-        #self.beginInsertRows(self.index(0, 0), 0, 0)
-        #self.insertRow(0)
         row = self.rowCount()
         self.insertRow(row)
         self.setData(self.createIndex(row, 1), name)
         self.setData(self.createIndex(row, 2), cacheid)
         self.setData(self.createIndex(row, 3), latitude)
         self.setData(self.createIndex(row, 4), longitude)
-        #self.endInsertRows()
         if not self.submitAll():
             print self.lastError()
         self.load()
 
     @QtCore.Slot(int)
     def remove(self, index):
-        #print index
         if not self.removeRow(index):
             print self.lastError()
         if not self.submitAll():
@@ -90,7 +81,6 @@ class SqlListModel(QtSql.QSqlTableModel):
         return names
 
     def cacheids(self):
-        print "Get cacheids"
         indices = list()
         for i in range(self.rowCount()):
             indices.append(self.index(i, 0))

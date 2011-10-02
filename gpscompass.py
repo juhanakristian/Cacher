@@ -36,9 +36,6 @@ class GPSCompass(QtCore.QObject):
     def locationUpdated(self, update):
         self.currentPosition = update.coordinate()
         self.location_changed.emit()
-        #if not self.coordinate.isValid(): 
-        #    self.coordinate = self.currentPosition
-        #print("Lat:%f.2 Long:%f.2" % (update.coordinate().latitude(), update.coordinate().longitude()))
 
     def _distance(self):
         if not self.currentPosition.isValid() or not self.coordinate.isValid():
@@ -48,8 +45,6 @@ class GPSCompass(QtCore.QObject):
     def _bearing(self):
         if not self.currentPosition.isValid() or not self.coordinate.isValid():
             return 0
-        #print("Bearing: %f" % self.currentPosition.azimuthTo(self.coordinate))
-        #print("Compass: %f" % self.compassAzimuth)
         return ((360 - self.compassAzimuth) - (360 - self.currentPosition.azimuthTo(self.coordinate)))
 
     def _destinationLatitude(self):
