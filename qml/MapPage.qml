@@ -27,9 +27,11 @@ Page {
 
     Map {
         id: map
-        anchors.fill: parent
+        /*anchors.fill: parent*/
         plugin: Plugin { name: "nokia" }
         center: currentCoordinate
+        width: 480
+        height: 800
 
         
         Coordinate{
@@ -57,6 +59,15 @@ Page {
             }
         }
 
+        /*transform: Scale {*/
+        /*    id: mapScale*/
+        /*    property real scale: 1*/
+        /*    origin.x: map.width / 2*/
+        /*    origin.y: map.height / 2*/
+        /*    xScale: scale*/
+        /*    yScale: scale*/
+        /*}*/
+
     }
 
     PinchArea {
@@ -64,6 +75,8 @@ Page {
         anchors.fill: parent
         enabled: true
         property double oldZoom;
+        property double previousScale: -1
+        pinch.minimumScale: 0.8
 
         function zoomDelta(zoom, percent) {
             return zoom + Math.log(percent)/Math.log(2);
@@ -74,11 +87,22 @@ Page {
         }
 
         onPinchUpdated:  {
-            map.zoomLevel = zoomDelta(oldZoom, pinch.scale);
+            /*map.zoomLevel = zoomDelta(oldZoom, pinch.scale);*/
+            if(previousScale == -1) {
+                previousScale = pinch.scale;
+            } else {
+                /*mapScale.scale += Math.log(pinch.scale)/Math.log(2);*/
+                if(map.scale > 0.6)
+                    map.scale -= (previousScale - pinch.scale);
+            }
         }
 
         onPinchFinished: {
-            map.zoomLevel = zoomDelta(oldZoom, pinch.scale);
+            map.zoomLevel = zoomDelta(oldZoom, map.scale);
+            map.scale = 1
+            map.x = 0;
+            map.y = 0;
+            previousScale = -1;
         }
     }
 
