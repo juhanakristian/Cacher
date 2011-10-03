@@ -13,4 +13,5 @@ setup(name="cacher",
       long_description=read('cacher.longdesc'),
       data_files=[('share/applications',['cacher.desktop']),
                   ('share/icons/hicolor/64x64/apps', ['cacher.png']),
-                  ('share/cacher/qml', glob.glob('qml/*.qml')), ],)
+                  ('share/cacher/qml', glob.glob('qml/*.qml')), 
+                  ('share/cacher/qml/images', glob.glob('qml/images/*.png')) ],)

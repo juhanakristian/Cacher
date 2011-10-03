@@ -27,11 +27,11 @@ Page {
 
     Map {
         id: map
-        /*anchors.fill: parent*/
+        anchors.fill: parent
         plugin: Plugin { name: "nokia" }
         center: currentCoordinate
-        width: 480
-        height: 800
+        /*width: 480*/
+        /*height: 800*/
 
         
         Coordinate{
@@ -42,33 +42,29 @@ Page {
             id: destCoordinate
         }
 
-        MapCircle {
-            id: destCircle
-            color: "#0099ee"
-            radius: 15
-            center: destCoordinate
+        MapImage {
+            id: destMarker
+            coordinate: destCoordinate
+            offset.x: -40
+            offset.y: -50
+            source: "images/cache_marker.png"
         }
 
-        MapCircle {
-            id: gpsCircle
-            color: "#cc3333"
-            radius: 15
-            center: Coordinate {
+        MapImage {
+            id: gpsMarker
+            source: "images/gps_marker.png"
+            offset.x: -12
+            offset.y: -12
+            coordinate: Coordinate {
+                id: gpsCoordinate
                 latitude: appWindow.gps_latitude                
                 longitude: appWindow.gps_longitude
             }
+            
         }
 
-        /*transform: Scale {*/
-        /*    id: mapScale*/
-        /*    property real scale: 1*/
-        /*    origin.x: map.width / 2*/
-        /*    origin.y: map.height / 2*/
-        /*    xScale: scale*/
-        /*    yScale: scale*/
-        /*}*/
-
     }
+
 
     PinchArea {
         id: pinchArea
@@ -87,11 +83,9 @@ Page {
         }
 
         onPinchUpdated:  {
-            /*map.zoomLevel = zoomDelta(oldZoom, pinch.scale);*/
             if(previousScale == -1) {
                 previousScale = pinch.scale;
             } else {
-                /*mapScale.scale += Math.log(pinch.scale)/Math.log(2);*/
                 if(map.scale > 0.6)
                     map.scale -= (previousScale - pinch.scale);
             }
@@ -100,8 +94,6 @@ Page {
         onPinchFinished: {
             map.zoomLevel = zoomDelta(oldZoom, map.scale);
             map.scale = 1
-            map.x = 0;
-            map.y = 0;
             previousScale = -1;
         }
     }
