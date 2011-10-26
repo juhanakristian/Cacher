@@ -8,13 +8,10 @@ Page {
         visible: true
 
         /*ToolIcon {*/
-        /*    platformIconId: "toolbar-settings";*/
+        /*    platformIconId: "toolbar-directory";*/
+        /*    anchors.rightMargin: 20*/
+        /*    anchors.right: addIcon.left*/
         /*}*/
-        ToolIcon {
-            platformIconId: "toolbar-directory";
-            anchors.rightMargin: 20
-            anchors.right: addIcon.left
-        }
 
         ToolIcon {
             id: addIcon
@@ -38,13 +35,14 @@ Page {
         id: cacheList
         anchors.fill: parent
         model: geocaches
-        /*model: ListModel {*/
-        /*    ListElement{*/
-        /*        name: "Kätkön nimi"*/
-        /*        latitude: 64.07323*/
-        /*        longitude: 24.521*/
-        /*    }*/
-        /*}*/
+        header: Label {
+            anchors.left: parent.left
+            font.pixelSize: 54
+            anchors.margins: 10
+            anchors.bottomMargin: 20
+            height: 75
+            text: "My caches"
+        }
         delegate: Item {
             id: cacheListDelegate
             height: 75

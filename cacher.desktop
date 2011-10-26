@@ -3,7 +3,7 @@ Encoding=UTF-8
 Version=1.0
 Type=Application
 Name=Cacher
-Exec=invoker --single-instance --type=e /usr/bin/cacher %U
+Exec=invoker --single-instance --splash /usr/share/cacher/splash.png --type=e /usr/bin/cacher %U
 Icon=/usr/share/icons/hicolor/64x64/apps/cacher.png
 Categories=Location;
 MimeType=application/xml-loc;

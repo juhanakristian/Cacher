@@ -43,8 +43,6 @@ def main():
             print "Failed to create table, error: %s" % query.lastError()
         del query
     
-    #q = QtSql.QSqlQuery("insert into caches (name, latitude, longitude) values ('lol', 64, 24)")
-    #q.exec_()
 
     app = QtGui.QApplication(sys.argv)
     view = QtDeclarative.QDeclarativeView()
@@ -55,7 +53,6 @@ def main():
 
     context = view.rootContext()
 
-    #context.setContextProperty("geocaches", [{"name": "LOL", "latitude": 64, "longitude": 24}])
     model = SqlListModel()
     model.setTable("caches")
     model.generate_roles()
