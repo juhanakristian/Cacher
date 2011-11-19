@@ -15,6 +15,7 @@ PageStackWindow {
     property double gps_longitude: compass.longitude
     property double dest_latitude: compass.dest_latitude
     property double dest_longitude: compass.dest_longitude
+    /*property variant route: routehandler.route*/
 
     /*property alias geocacheModel: geocaches*/
 

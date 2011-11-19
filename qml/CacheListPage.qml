@@ -35,13 +35,26 @@ Page {
         id: cacheList
         anchors.fill: parent
         model: geocaches
-        header: Label {
+        header: Item {
             anchors.left: parent.left
-            font.pixelSize: 54
+            anchors.right: parent.right
             anchors.margins: 10
             anchors.bottomMargin: 20
-            height: 75
-            text: "My caches"
+            height: 105
+            Label {
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                font.pixelSize: 62
+                text: "My caches"
+            }
+
+            Rectangle {
+                height: 1
+                width: parent.width
+                color: "#666666"
+                anchors.bottom: parent.bottom
+            }
         }
         delegate: Item {
             id: cacheListDelegate

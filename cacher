@@ -12,9 +12,13 @@ from PySide import QtOpenGL
 
 from PySide import QtSql
 
+from PySide.QtDeclarative import *
+
 from gpscompass import GPSCompass
 from sqllistmodel import SqlListModel
 from locparser import LOCParser
+from routehandler import RouteHandler
+from cachemap import CacheMap
 
 import glob
 
@@ -43,6 +47,7 @@ def main():
             print "Failed to create table, error: %s" % query.lastError()
         del query
     
+    qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
 
     app = QtGui.QApplication(sys.argv)
     view = QtDeclarative.QDeclarativeView()
@@ -79,9 +84,11 @@ def main():
         
 
     compass = GPSCompass()
+    routehandler = RouteHandler()
 
     context.setContextProperty("compass", compass)
     context.setContextProperty("geocaches", model)
+    context.setContextProperty("routehandler", routehandler)
 
     if os.path.exists('/usr/share/cacher/qml'):
         view.setSource('/usr/share/cacher/qml/main.qml')
