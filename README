@@ -1,10 +1,7 @@
 A simple geocaching application for MeeGo Harmattan devices (Nokia N9).
 
 TODO
--improve graphics
 -downloading caches from geocaching.com?
--ability to change default loc/gpx folder
 -support gpx file format
--routing
 -map view for all caches in db
--cache types
+-marking caches as found
