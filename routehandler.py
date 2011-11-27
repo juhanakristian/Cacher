@@ -2,6 +2,8 @@ from PySide import QtCore
 from QtMobility import Location
 from QtMobility.Location import *
 
+CAR = 1
+WALK = 2
 
 class RouteHandler(QtCore.QObject):
     routeCalculationReady = QtCore.Signal(str)
@@ -16,6 +18,7 @@ class RouteHandler(QtCore.QObject):
         #self.routingManager.error.connect(self.routeCalculationError)
         self.currentRoute = list()
         self.reply = None
+        self.routingMode = CAR
 
     @QtCore.Slot(float, float, float, float)
     def calculateRoute(self, start_lat, start_lon, destination_lat, destination_lon):
@@ -23,6 +26,7 @@ class RouteHandler(QtCore.QObject):
         destination = QGeoCoordinate(destination_lat, destination_lon)
         print "Calculating route %s %s" % (start.toString(), destination.toString())
         request = QGeoRouteRequest(start, destination)
+        #request.setTravelMode(self.routingMode)
         self.reply = self.routingManager.calculateRoute(request)
         if self.reply.isFinished():
             if self.reply.error() == QGeoRouteReply.NoError:
@@ -33,7 +37,6 @@ class RouteHandler(QtCore.QObject):
         self.reply.finished.connect(self.routeCalculated)
         self.reply.error.connect(self.routeCalculationError)
 
-        print "Called"
 
     @QtCore.Slot()
     def routeCalculated(self):
@@ -51,7 +54,6 @@ class RouteHandler(QtCore.QObject):
 
     @QtCore.Slot()
     def get_route(self):
-        print self.currentRoute
         return self.currentRoute
 
     def makeRouteString(self, route):
@@ -62,5 +64,14 @@ class RouteHandler(QtCore.QObject):
         route_string = route_string[:len(route_string)-1]
         route_string += "}"
         return route_string
+
+    def _mode(self):
+        return self.routingMode
+
+    @QtCore.Slot(int)
+    def setMode(self, mode):
+        self.routingMode = mode
+
  
     route = QtCore.Property("QVariant", read=_route, notify=routeCalculationReady)
+    #mode = QtCore.Property(int, _mode, setMode)

@@ -9,21 +9,24 @@ from PySide.QtCore import QPoint
 cache_icon_path = "/usr/share/cacher/qml/images/cache_marker.png"
 gps_icon_path = "/usr/share/cacher/qml/images/gps_marker.png"
 
-WALK = 1
-CAR = 2
+CAR = 1
+WALK = 2
 
 class CacheMap(QDeclarativeItem):
     def __init__(self):
         QDeclarativeItem.__init__(self)
         self.serviceProvider = QGeoServiceProvider("nokia")
         self.geomap = QGraphicsGeoMap(self.serviceProvider.mappingManager(), self)
+        self.gps_coordinate = QGeoCoordinate()
+        self.routingMode = CAR
+        self.createGPSMarker()
+
+    def createGPSMarker(self):
         self.gps_marker = QGeoMapPixmapObject()
         self.gps_marker.setPixmap(QPixmap(gps_icon_path))
         self.gps_marker.setOffset(QPoint(-12, -12))
         self.gps_marker.setZValue(2)
         self.geomap.addMapObject(self.gps_marker)
-        self.gps_coordinate = QGeoCoordinate()
-        self.mode = CAR
 
     def geometryChanged(self, new, old):
         self.geomap.setGeometry(new) 
@@ -85,6 +88,7 @@ class CacheMap(QDeclarativeItem):
     @QtCore.Slot()
     def clearCaches(self):
         self.geomap.clearMapObjects()
+        self.createGPSMarker()
 
     @QtCore.Slot(float, float)
     def setGPSPosition(self, latitude, longitude):
@@ -103,7 +107,6 @@ class CacheMap(QDeclarativeItem):
     def setGPSLongitude(self, longitude):
         self.gps_coordinate.setLongitude(longitude)
         self.gps_marker.setCoordinate(self.gps_coordinate)
-
 
     zoomLevel = QtCore.Property(float, _zoomLevel, setZoomLevel)
     gpsLatitude = QtCore.Property(float, _gpsLatitude, setGPSLatitude)

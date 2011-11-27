@@ -7,12 +7,11 @@ from PySide import QtGui
 from PySide import QtDeclarative
 import os
 
-# Comment the line below if you don't want to use OpenGL for QML rendering or if it is not supported
 from PySide import QtOpenGL
-
 from PySide import QtSql
 
 from PySide.QtDeclarative import *
+from QtMobility.Location import QGeoCoordinate
 
 from gpscompass import GPSCompass
 from sqllistmodel import SqlListModel
@@ -23,6 +22,18 @@ from cachemap import CacheMap
 import glob
 
 appdirectory = "/home/user/MyDocs/Cacher"
+
+class GPSCoordinateConverter(QtCore.QObject):
+    def __init__(self):
+        QtCore.QObject.__init__(self)
+
+    @QtCore.Slot(float, float, result=str)
+    def coordinateAsString(self, latitude, longitude):
+        c = QGeoCoordinate(latitude, longitude)
+        s = c.toString(QGeoCoordinate.DegreesMinutesSeconds)
+        s = "N " + s
+        s = s.replace(",", " E ")
+        return s
 
 def main():
     appDir = QtCore.QDir(appdirectory)
@@ -85,10 +96,12 @@ def main():
 
     compass = GPSCompass()
     routehandler = RouteHandler()
+    gpsconverter = GPSCoordinateConverter()
 
     context.setContextProperty("compass", compass)
     context.setContextProperty("geocaches", model)
     context.setContextProperty("routehandler", routehandler)
+    context.setContextProperty("gpsconverter", gpsconverter)
 
     if os.path.exists('/usr/share/cacher/qml'):
         view.setSource('/usr/share/cacher/qml/main.qml')

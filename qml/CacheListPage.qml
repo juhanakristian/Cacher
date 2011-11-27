@@ -21,6 +21,11 @@ Page {
         }
     }
 
+    /*Image{
+        source: "images/bg.png"
+        anchors.centerIn: parent
+    }*/
+
     Label {
         id: nocaches
         anchors.horizontalCenter: parent.horizontalCenter
@@ -80,6 +85,19 @@ Page {
                     text: name
                     font.pixelSize: 26
                     font.weight: Font.Bold
+                    elide: Text.ElideRight
+                    width: cacheListDelegate.width-30
+                    /*Component.onCompleted: {
+                        //Truncate cache names that don't fit
+                        var maxWidth = cacheListDelegate.width-30;
+                        if(cacheName.paintedWidth > (maxWidth)) {
+                            var m = maxWidth / cacheName.paintedWidth;
+                            var p = cacheName.text.length * m;
+                            p = p - 3;
+                            cacheName.text = cacheName.text.slice(0, p);
+                            cacheName.text += "...";
+                        }
+                    }*/
                 }
 
                 Row {
@@ -90,16 +108,16 @@ Page {
                     spacing: 10
                     Label {
                         id: latLabel
-                        text: "Latitude: " + latitude
+                        text: gpsconverter.coordinateAsString(latitude,longitude)
                         font.pixelSize: 20
                         color: "#aaaaaa"
                     }
-                    Label {
-                        id: lonLabel
-                        text: "Longitude: " + longitude
-                        font.pixelSize: 20
-                        color: "#aaaaaa"
-                    }
+                    /*Label {*/
+                    /*    id: lonLabel*/
+                    /*    text: "Longitude: " + longitude*/
+                    /*    font.pixelSize: 20*/
+                    /*    color: "#aaaaaa"*/
+                    /*}*/
                 }
             }
 
@@ -109,6 +127,7 @@ Page {
                 onClicked: {
                     compass.setDestination(latitude, longitude);
                     new_cache = true;
+                    goal = name;
                     pageStack.push(mainPage);
                 }
 

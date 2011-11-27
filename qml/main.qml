@@ -22,6 +22,7 @@ PageStackWindow {
 
     //Used to determine should we center the map on the cache
     property bool new_cache: true
+    property string goal: ""
 
     initialPage: cacheListPage
 

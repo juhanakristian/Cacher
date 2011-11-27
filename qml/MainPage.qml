@@ -26,12 +26,31 @@ Page {
         else
             return d + " meters";
     }
+
+    /*Image{
+        source: "images/bg.png"
+        anchors.centerIn: parent
+    }*/
+
+    Text {
+        id: goal_name
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 35
+        anchors.left: parent.left
+        anchors.right: parent.right
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 24
+        text: goal
+        wrapMode: Text.WordWrap
+        color: "#ffffff"
+    }
     
     Label {
         id: distance
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 35
+        anchors.top: goal_name.bottom
+        anchors.topMargin: 15
         font.pixelSize: 42
         text: formatDistance(appWindow.distance)
     }
@@ -74,7 +93,7 @@ Page {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
         font.pixelSize: 32
-        text: appWindow.gps_latitude.toFixed(6) + " " + appWindow.gps_longitude.toFixed(6)
+        text: gpsconverter.coordinateAsString(gps_latitude, gps_longitude)
     }
 
 }

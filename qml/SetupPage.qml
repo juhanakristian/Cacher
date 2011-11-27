@@ -26,10 +26,20 @@ Page {
         }
     }
 
+    /*Image{
+        source: "images/bg.png"
+        anchors.centerIn: parent
+    }*/
+
     onStatusChanged: {
         if(status == PageStatus.Active) {
-            latitudeText.text = appWindow.gps_latitude;                
-            longitudeText.text = appWindow.gps_longitude;                
+            if(gps_latitude != undefined && gps_longitude != undefined) {
+                latitudeText.text = gps_latitude;                
+                longitudeText.text = gps_longitude;                
+            } else {
+                latitudeText.text = 51.4791;
+                longitudeText.text = 0.0000;
+            }
         }
     }
 
@@ -42,8 +52,9 @@ Page {
         anchors.topMargin: 30
         spacing: 10
 
-        Label {
-            text: "Enter latitude and longitude of a geocache"
+        Label{
+            text: "Geocache name"
+            wrapMode: Text.WordWrap
             anchors.bottomMargin: 10
         }
 
@@ -54,12 +65,26 @@ Page {
             placeholderText: "Name"
         }
 
+
+        Label{
+            text: "Latitude in degrees"
+            wrapMode: Text.WordWrap
+            anchors.bottomMargin: 10
+        }
+
         TextField {
             id: latitudeText
             anchors.left: parent.left
             anchors.right: parent.right
             placeholderText: "Latitude"
         }
+
+        Label{
+            text: "Longitude in degrees"
+            wrapMode: Text.WordWrap
+            anchors.bottomMargin: 10
+        }
+
         TextField {
             id: longitudeText
             anchors.left: parent.left

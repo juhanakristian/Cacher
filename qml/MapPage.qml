@@ -15,29 +15,25 @@ Page {
         }
     }
 
+    orientationLock: PageOrientation.LockPortrait
+
     onStatusChanged: {
         if(status == PageStatus.Active && new_cache) {
-            /*currentCoordinate.latitude = gps_latitude;                */
-            /*currentCoordinate.longitude = gps_longitude;                */
+            map.clearCaches();
             destCoordinate.latitude = dest_latitude;                
             destCoordinate.longitude = dest_longitude;                
             map.zoomLevel = 14;
             new_cache = false;
-            /*map.setCenter(currentCoordinate.latitude, currentCoordinate.longitude)*/
             map.setCenter(gps_latitude, gps_longitude)
             routehandler.calculateRoute(gps_latitude, 
                                         gps_longitude,
                                         destCoordinate.latitude,
                                         destCoordinate.longitude);
-            /*routePolyline.path = routehandler.get_route();*/
             routehandler.routeCalculationReady.connect(map.setRoute);
             map.addCache(dest_latitude, dest_longitude)
         }
     }
 
-    /*Coordinate{*/
-    /*    id: currentCoordinate*/
-    /*}*/
     Coordinate {
         id: destCoordinate
     }
@@ -49,47 +45,38 @@ Page {
 
         gpsLatitude: gps_latitude
         gpsLongitude: gps_longitude
-        /*Connections{*/
-        /*    target: routehandler*/
-        /*    onRouteCalculationReady: map.setRoute(route)*/
-        /*}*/
-
-        /*plugin: Plugin { name: "nokia" }*/
-        /*center: currentCoordinate*/
-
-        /*MapPolygon {*/
-        /*    id: routePolyline*/
-        /*    border.width: 4*/
-        /*    border.color: "#ff0000"*/
-
-        /**/
-        /*Coordinate{*/
-        /*    id: currentCoordinate*/
-        /*}*/
-
-        /*Coordinate {*/
-        /*    id: destCoordinate*/
-        /*}*/
-
-        /*MapImage {*/
-        /*    id: destMarker*/
-        /*    coordinate: destCoordinate*/
-        /*    offset.x: -22*/
-        /*    offset.y: -61*/
-        /*    source: "images/cache_marker.png"*/
-        /*}*/
-
-        /*MapImage {*/
-        /*    id: gpsMarker*/
-        /*    source: "images/gps_marker.png"*/
-        /*    offset.x: -12*/
-        /*    offset.y: -12*/
-        /*    coordinate: currentCoordinate*/
-        /*    */
-        /*}*/
 
     }
 
+    /*Travel modes not implemented yet*/
+    /*ButtonRow {*/
+    /*    anchors.left: parent.left*/
+    /*    anchors.top: parent.top*/
+    /*    anchors.margins: 15*/
+    /*    width: 240*/
+    /*    z: 10 */
+    /*    Button {*/
+    /*        text: "Car"*/
+    /*        onClicked: {*/
+    /*            routehandler.setMode(1);*/
+    /*            routehandler.calculateRoute(gps_latitude, */
+    /*                                        gps_longitude,*/
+    /*                                        destCoordinate.latitude,*/
+    /*                                        destCoordinate.longitude);*/
+    /*        }*/
+    /*    }*/
+
+    /*    Button {*/
+    /*        text: "Foot"*/
+    /*        onClicked: {*/
+    /*            routehandler.setMode(2);*/
+    /*            routehandler.calculateRoute(gps_latitude, */
+    /*                                        gps_longitude,*/
+    /*                                        destCoordinate.latitude,*/
+    /*                                        destCoordinate.longitude);*/
+    /*        }*/
+    /*    }*/
+    /*}*/
 
     PinchArea {
         id: pinchArea
