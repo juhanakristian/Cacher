@@ -43,55 +43,58 @@ Page {
         }
     }
 
-    Column {
-        id: inputColumn
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: 10
+    Flickable{
+        anchors.fill: parent
         anchors.topMargin: 30
-        spacing: 10
+        contentWidth: parent.width
+        contentHeight: inputColumn.height
+        flickableDirection: Flickable.VerticalFlick
 
-        Label{
-            text: "Geocache name"
-            wrapMode: Text.WordWrap
-            anchors.bottomMargin: 10
-        }
-
-        TextField {
-            id: nameText
+        Column {
+            id: inputColumn
+            spacing: 10
             anchors.left: parent.left
             anchors.right: parent.right
-            placeholderText: "Name"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.margins: 10
+
+            Label{
+                text: "Geocache name"
+                wrapMode: Text.WordWrap
+            }
+
+            TextField {
+                id: nameText
+                anchors.left: parent.left
+                anchors.right: parent.right
+                placeholderText: "Name"
+            }
+
+
+            Label{
+                text: "Latitude in degrees"
+                wrapMode: Text.WordWrap
+            }
+
+            TextField {
+                id: latitudeText
+                anchors.left: parent.left
+                anchors.right: parent.right
+                placeholderText: "Latitude"
+            }
+
+            Label{
+                text: "Longitude in degrees"
+                wrapMode: Text.WordWrap
+            }
+
+            TextField {
+                id: longitudeText
+                anchors.left: parent.left
+                anchors.right: parent.right
+                placeholderText: "Longitude"
+            }
+
         }
-
-
-        Label{
-            text: "Latitude in degrees"
-            wrapMode: Text.WordWrap
-            anchors.bottomMargin: 10
-        }
-
-        TextField {
-            id: latitudeText
-            anchors.left: parent.left
-            anchors.right: parent.right
-            placeholderText: "Latitude"
-        }
-
-        Label{
-            text: "Longitude in degrees"
-            wrapMode: Text.WordWrap
-            anchors.bottomMargin: 10
-        }
-
-        TextField {
-            id: longitudeText
-            anchors.left: parent.left
-            anchors.right: parent.right
-            placeholderText: "Longitude"
-        }
-
     }
-
 }

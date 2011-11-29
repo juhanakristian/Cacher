@@ -30,4 +30,5 @@ PageStackWindow {
     MainPage{id: mainPage}
     SetupPage{id: setupPage}
     MapPage{id: mapPage}
+    AboutPage{id: aboutPage}
 }

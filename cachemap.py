@@ -25,7 +25,7 @@ class CacheMap(QDeclarativeItem):
         self.gps_marker = QGeoMapPixmapObject()
         self.gps_marker.setPixmap(QPixmap(gps_icon_path))
         self.gps_marker.setOffset(QPoint(-12, -12))
-        self.gps_marker.setZValue(2)
+        self.gps_marker.setZValue(10)
         self.geomap.addMapObject(self.gps_marker)
 
     def geometryChanged(self, new, old):
@@ -82,7 +82,7 @@ class CacheMap(QDeclarativeItem):
         po = QGeoMapPixmapObject(QGeoCoordinate(latitude, longitude))
         po.setPixmap(QPixmap(cache_icon_path))
         po.setOffset(QPoint(-27, -60))
-        po.setZValue(2)
+        po.setZValue(10)
         self.geomap.addMapObject(po)
 
     @QtCore.Slot()

@@ -19,6 +19,12 @@ Page {
             onClicked: pageStack.push(setupPage)
             anchors.right: parent===undefined ? undefined : parent.right
         }
+        ToolIcon {
+            id: helpIcon
+            platformIconId: "toolbar-tag";
+            onClicked: pageStack.push(aboutPage)
+            anchors.right: parent===undefined ? undefined : addIcon.left
+        }
     }
 
     /*Image{
