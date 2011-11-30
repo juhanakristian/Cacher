@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="-651.34917"
-     inkscape:cy="-1060.6678"
+     inkscape:zoom="0.12374369"
+     inkscape:cx="-1214.4934"
+     inkscape:cy="-1176.5841"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -11554,7 +11554,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -13562,29 +13562,17 @@
     <rect
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/juhana/Projects/cacher/screenshots/splash.png"
+       inkscape:export-filename="/home/juhana/Projects/cacher/qml/images/bg.png"
        y="1855.686"
        x="-1245.9376"
        height="850"
        width="480"
        id="rect7865"
        style="fill:#000000;fill-opacity:1;stroke:none" />
-    <rect
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/juhana/Projects/MeBook/harmattan/splash.png"
-       y="281.47855"
-       x="-984.25354"
-       height="800"
-       width="480"
-       id="rect7867"
-       style="fill:url(#radialGradient7975);fill-opacity:1;stroke:none"
-       mask="url(#mask5544)"
-       transform="translate(-262.18492,1052.5196)" />
     <flowRoot
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
-       inkscape:export-filename="/home/juhana/Projects/cacher/splash.png"
+       inkscape:export-filename="/home/juhana/Projects/cacher/qml/images/logo.png"
        transform="translate(-748.57144,1522.5715)"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:url(#pattern5661);fill-opacity:1;stroke:none;font-family:Sans"
        id="flowRoot7869"
@@ -13600,7 +13588,10 @@
          id="flowPara7875">Cacher</flowPara></flowRoot>    <g
        transform="translate(-1200.5675,1900.676)"
        id="g7899"
-       style="display:inline">
+       style="display:inline"
+       inkscape:export-filename="/home/juhana/Projects/cacher/qml/images/logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <g
          id="g7901"
          inkscape:label="DELETE FOR FINALISATION: Colour Palette"

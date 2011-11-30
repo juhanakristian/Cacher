@@ -3,8 +3,8 @@ from PySide import QtCore
 from PySide import QtSql
 
 class SqlListModel(QtSql.QSqlTableModel):
-    def __init__(self):
-        QtSql.QSqlTableModel.__init__(self)
+    def __init__(self, parent):
+        QtSql.QSqlTableModel.__init__(self, parent)
         self.roles = dict()
         self.cache = dict()
 

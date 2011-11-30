@@ -7,8 +7,8 @@ WALK = 2
 
 class RouteHandler(QtCore.QObject):
     routeCalculationReady = QtCore.Signal(str)
-    def __init__(self):
-        QtCore.QObject.__init__(self)
+    def __init__(self, parent):
+        QtCore.QObject.__init__(self, parent)
         p = QGeoServiceProvider.availableServiceProviders()
         for sp in p:
             print "Service provider: %s" % sp

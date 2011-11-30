@@ -24,8 +24,8 @@ import glob
 appdirectory = "/home/user/MyDocs/Cacher"
 
 class GPSCoordinateConverter(QtCore.QObject):
-    def __init__(self):
-        QtCore.QObject.__init__(self)
+    def __init__(self, parent):
+        QtCore.QObject.__init__(self, parent)
 
     @QtCore.Slot(float, float, result=str)
     def coordinateAsString(self, latitude, longitude):
@@ -35,80 +35,80 @@ class GPSCoordinateConverter(QtCore.QObject):
         s = s.replace(",", " E ")
         return s
 
-def main():
-    appDir = QtCore.QDir(appdirectory)
-    if not appDir.exists():
-        QtCore.QDir("/home/user/MyDocs").mkdir("Cacher")
+class Cacher(QtDeclarative.QDeclarativeView):
+    def __init__(self):
+        QtDeclarative.QDeclarativeView.__init__(self)
+        #qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
 
-    db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
-    db.setDatabaseName(appdirectory + "/geocache.db")
-    if not db.open():
-        print "Can't open database!"
+        appDir = QtCore.QDir(appdirectory)
+        if not appDir.exists():
+            QtCore.QDir("/home/user/MyDocs").mkdir("Cacher") #WTF?
 
-    if not "caches" in db.tables():
-        query = QtSql.QSqlQuery("create table caches(id INTEGER PRIMARY KEY, \
-                                                      name VARCHAR(100),\
-                                                      cacheID VARCHAR(100),\
-                                                      latitude FLOAT,\
-                                                      longitude FLOAT,\
-                                                      found BOOLEAN,\
-                                                      added TIMESTAMP,\
-                                                      found_time TIMESTAMP)")
-        if not query.exec_():
-            print "Failed to create table, error: %s" % query.lastError()
-        del query
-    
-    qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
+        self.open_database(appdirectory + "/geocache.db") 
 
-    app = QtGui.QApplication(sys.argv)
-    view = QtDeclarative.QDeclarativeView()
+        self.model = SqlListModel(self)
+        self.model.setTable("caches")
+        self.model.generate_roles()
+        self.model.load()
 
-    # Comment the two lines below if you don't want to use OpenGL for QML rendering or if it is not supported
-    glw = QtOpenGL.QGLWidget()
-    view.setViewport(glw)
+        self.compass = GPSCompass(self)
+        self.routehandler = RouteHandler(self)
+        self.gpsconverter = GPSCoordinateConverter(self)
 
-    context = view.rootContext()
+        context = self.rootContext()
+        context.setContextProperty("compass", self.compass)
+        context.setContextProperty("geocaches", self.model)
+        context.setContextProperty("routehandler", self.routehandler)
+        context.setContextProperty("gpsconverter", self.gpsconverter)
+        self.setSource('/usr/share/cacher/qml/main.qml')
 
-    model = SqlListModel()
-    model.setTable("caches")
-    model.generate_roles()
-    model.load()
+    def open_database(self, path):
+        self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
+        self.db.setDatabaseName(appdirectory + "/geocache.db")
+        if not self.db.open():
+            print "Can't open database!"
 
+        if not "caches" in self.db.tables():
+            query = QtSql.QSqlQuery("create table caches(id INTEGER PRIMARY KEY, \
+                                                          name VARCHAR(100),\
+                                                          cacheID VARCHAR(100),\
+                                                          latitude FLOAT,\
+                                                          longitude FLOAT,\
+                                                          found BOOLEAN,\
+                                                          added TIMESTAMP,\
+                                                          found_time TIMESTAMP)")
+            if not query.exec_():
+                print "Failed to create table, error: %s" % query.lastError()
 
-    locfiles = glob.glob(appdirectory + "/*.loc") 
+            
+    def parse_new_caches(self):
+        locfiles = glob.glob(appdirectory + "/*.loc") 
 
-    def new_caches(clist):
-        cacheids = model.cacheids()
+        parser = LOCParser()
+        parser.parsed_locations.connect(self.new_caches)
+
+        for locfile in locfiles:
+            f = open(locfile)
+            xml = ' '.join(f.readlines())
+            parser.parse(xml)
+
+    def add_caches(self, clist):
+        cacheids = self.model.cacheids()
         newc = [lc for lc in clist if not lc["id"] in cacheids]
         for c in newc:
-            model.add(c["name"], c["latitude"], c["longitude"], c["id"])
-        print newc
+            self.model.add(c["name"], c["latitude"], c["longitude"], c["id"])
 
-    parser = LOCParser()
-    parser.parsed_locations.connect(new_caches)
 
-    for locfile in locfiles:
-        f = open(locfile)
-        xml = ' '.join(f.readlines())
-        print xml
-        parser.parse(xml)
-        
+def main():
+    app = QtGui.QApplication(sys.argv)
 
-    compass = GPSCompass()
-    routehandler = RouteHandler()
-    gpsconverter = GPSCoordinateConverter()
+    qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
+    cacher = Cacher()
 
-    context.setContextProperty("compass", compass)
-    context.setContextProperty("geocaches", model)
-    context.setContextProperty("routehandler", routehandler)
-    context.setContextProperty("gpsconverter", gpsconverter)
+    glw = QtOpenGL.QGLWidget()
+    cacher.setViewport(glw)
 
-    if os.path.exists('/usr/share/cacher/qml'):
-        view.setSource('/usr/share/cacher/qml/main.qml')
-    else:
-        view.setSource(os.path.join('qml','main.qml'))
-
-    view.showFullScreen()
+    cacher.showFullScreen()
     sys.exit(app.exec_())
 
 if __name__ == "__main__":

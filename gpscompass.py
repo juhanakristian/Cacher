@@ -6,8 +6,8 @@ from QtMobility.Sensors import QCompass
 
 class GPSCompass(QtCore.QObject):
     '''GPSCompass gives distance and bearing to a gps position from the current gps position'''
-    def __init__(self):
-        QtCore.QObject.__init__(self)
+    def __init__(self, parent):
+        QtCore.QObject.__init__(self, parent)
         self.positionSource = Location.QGeoPositionInfoSource.createDefaultSource(self)
         if self.positionSource == None:
             self.valid = False 

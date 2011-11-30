@@ -2,17 +2,9 @@ import QtQuick 1.1
 import com.meego 1.0
 
 Page {
-    id: cacheListPage
-    
+    id: cacheListPage    
     tools: ToolBarLayout {
         visible: true
-
-        /*ToolIcon {*/
-        /*    platformIconId: "toolbar-directory";*/
-        /*    anchors.rightMargin: 20*/
-        /*    anchors.right: addIcon.left*/
-        /*}*/
-
         ToolIcon {
             id: addIcon
             platformIconId: "toolbar-add";
