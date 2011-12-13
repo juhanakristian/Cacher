@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.12374369"
-     inkscape:cx="-1214.4934"
-     inkscape:cy="-1176.5841"
+     inkscape:zoom="0.70000002"
+     inkscape:cx="507.10518"
+     inkscape:cy="-17.983537"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,6 +37,17 @@
      inkscape:window-maximized="1" />
   <defs
      id="defs3825">
+    <linearGradient
+       id="linearGradient9822">
+      <stop
+         style="stop-color:#999999;stop-opacity:1;"
+         offset="0"
+         id="stop9824" />
+      <stop
+         style="stop-color:#626262;stop-opacity:1;"
+         offset="1"
+         id="stop9826" />
+    </linearGradient>
     <pattern
        inkscape:stockid="Sand (bitmap)"
        id="pattern10758"
@@ -11545,6 +11556,24 @@
        y1="0"
        x2="47.9995"
        y2="144.6673" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4615"
+       id="linearGradient9836"
+       gradientUnits="userSpaceOnUse"
+       x1="257.96234"
+       y1="300.24902"
+       x2="252.73322"
+       y2="317.61044" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4615"
+       id="linearGradient9858"
+       gradientUnits="userSpaceOnUse"
+       x1="257.96234"
+       y1="300.24902"
+       x2="252.73322"
+       y2="317.61044" />
   </defs>
   <metadata
      id="metadata3828">
@@ -13811,6 +13840,66 @@
              style="opacity:0.01000001;fill:#ffffff;display:inline" />
         </g>
       </g>
+    </g>
+    <rect
+       style="fill:#6a6a6a;fill-opacity:1;stroke:none"
+       id="rect9828"
+       width="109.85409"
+       height="60.60915"
+       x="635.63849"
+       y="1245.3014" />
+    <g
+       id="g9850"
+       transform="translate(1.7677669,-1.7677669)"
+       inkscape:export-filename="/home/juhana/Projects/cacher/qml/images/follow_icon.png"
+       inkscape:export-xdpi="129.69"
+       inkscape:export-ydpi="129.69">
+      <path
+         sodipodi:type="arc"
+         style="fill:url(#linearGradient9858);fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:2.21137166;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4664)"
+         id="path9834"
+         sodipodi:cx="251.52798"
+         sodipodi:cy="308.88992"
+         sodipodi:rx="9.0913725"
+         sodipodi:ry="9.0913725"
+         d="m 260.61936,308.88992 c 0,5.02103 -4.07035,9.09138 -9.09138,9.09138 -5.02102,0 -9.09137,-4.07035 -9.09137,-9.09138 0,-5.02102 4.07035,-9.09137 9.09137,-9.09137 5.02103,0 9.09138,4.07035 9.09138,9.09137 z"
+         transform="matrix(0.61155986,0,0,0.61155986,533.82939,1084.036)"
+         inkscape:export-filename="/home/juhana/Projects/SimpleCache/cacher/qml/images/gps_marker.png"
+         inkscape:export-xdpi="116.19"
+         inkscape:export-ydpi="116.19" />
+      <path
+         inkscape:export-ydpi="116.19"
+         inkscape:export-xdpi="116.19"
+         inkscape:export-filename="/home/juhana/Projects/SimpleCache/cacher/qml/images/gps_marker.png"
+         transform="matrix(1.1203863,0,0,1.1203863,405.8453,926.89709)"
+         d="m 260.61936,308.88992 c 0,5.02103 -4.07035,9.09138 -9.09138,9.09138 -5.02102,0 -9.09137,-4.07035 -9.09137,-9.09138 0,-5.02102 4.07035,-9.09137 9.09137,-9.09137 5.02103,0 9.09138,4.07035 9.09138,9.09137 z"
+         sodipodi:ry="9.0913725"
+         sodipodi:rx="9.0913725"
+         sodipodi:cy="308.88992"
+         sodipodi:cx="251.52798"
+         id="path9830"
+         style="fill:none;stroke:#ffffff;stroke-width:1.58695269;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path9838"
+         d="m 687.65381,1261.8712 0,-1.6583"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2.41749835;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2.41749835;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 687.65381,1285.366 0,-1.6583"
+         id="path9840"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2.41749835;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 698.5721,1272.7896 1.65828,-10e-5"
+         id="path9842"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path9844"
+         d="m 675.07724,1272.7895 1.65828,-1e-4"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2.41749835;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
   </g>
 </svg>

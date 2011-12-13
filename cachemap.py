@@ -19,6 +19,7 @@ class CacheMap(QDeclarativeItem):
         self.geomap = QGraphicsGeoMap(self.serviceProvider.mappingManager(), self)
         self.gps_coordinate = QGeoCoordinate()
         self.routingMode = CAR
+        self.lockOnGPS = False
         self.createGPSMarker()
 
     def createGPSMarker(self):
@@ -34,14 +35,12 @@ class CacheMap(QDeclarativeItem):
     def _center(self):
         return self.geomap.center()
 
-    def setCenter(self, c):
-        print "Set center:", c
+    def setCenterGC(self, c):
         self.geomap.setCenter(c)
 
     @QtCore.Slot(float, float)
     def setCenter(self, lat, lon):
-        print "Set center %f %f" % (lat,lon)
-        self.geomap.setCenter(QGeoCoordinate(lat, lon))
+        self.setCenterGC(QGeoCoordinate(lat, lon))
 
     def _zoomLevel(self):
         return self.geomap.zoomLevel()
@@ -92,22 +91,38 @@ class CacheMap(QDeclarativeItem):
 
     @QtCore.Slot(float, float)
     def setGPSPosition(self, latitude, longitude):
-        self.gps_marker.setCoordinate(QGeoCoordinate(latitude, longitude))
+        coord = QGeoCoordinate(latitude, longitude)
+        self.gps_coordinate = coord
+        self.updateGPSMarker()
 
     def _gpsLatitude(self):
         return self.gps_coordinate.latitude()
 
     def setGPSLatitude(self, latitude):
         self.gps_coordinate.setLatitude(latitude)
-        self.gps_marker.setCoordinate(self.gps_coordinate)
+        self.updateGPSMarker()
 
     def _gpsLongitude(self):
         return self.gps_coordinate.longitude()
 
     def setGPSLongitude(self, longitude):
         self.gps_coordinate.setLongitude(longitude)
+        self.updateGPSMarker()
+
+    def _lock(self):
+        return self.lockOnGPS
+
+    def setLock(self, l):
+        self.lockOnGPS = l
+
+    def updateGPSMarker(self):
         self.gps_marker.setCoordinate(self.gps_coordinate)
+        if self.lockOnGPS:
+            self.setCenterGC(self.gps_coordinate)
+
+
 
     zoomLevel = QtCore.Property(float, _zoomLevel, setZoomLevel)
     gpsLatitude = QtCore.Property(float, _gpsLatitude, setGPSLatitude)
     gpsLongitude = QtCore.Property(float, _gpsLongitude, setGPSLongitude)
+    follow = QtCore.Property(bool, _lock, setLock)

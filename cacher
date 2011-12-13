@@ -30,7 +30,9 @@ class GPSCoordinateConverter(QtCore.QObject):
     @QtCore.Slot(float, float, result=str)
     def coordinateAsString(self, latitude, longitude):
         c = QGeoCoordinate(latitude, longitude)
-        s = c.toString(QGeoCoordinate.DegreesMinutesSeconds)
+        s = c.toString(QGeoCoordinate.DegreesMinutes)
+        if len(s) == 0:
+            return ""
         s = "N " + s
         s = s.replace(",", " E ")
         return s
@@ -50,6 +52,8 @@ class Cacher(QtDeclarative.QDeclarativeView):
         self.model.setTable("caches")
         self.model.generate_roles()
         self.model.load()
+
+        self.parse_new_caches()
 
         self.compass = GPSCompass(self)
         self.routehandler = RouteHandler(self)
@@ -85,7 +89,7 @@ class Cacher(QtDeclarative.QDeclarativeView):
         locfiles = glob.glob(appdirectory + "/*.loc") 
 
         parser = LOCParser()
-        parser.parsed_locations.connect(self.new_caches)
+        parser.parsed_locations.connect(self.add_caches)
 
         for locfile in locfiles:
             f = open(locfile)

@@ -45,11 +45,20 @@ Page {
         wrapMode: Text.WordWrap
         color: "#ffffff"
     }
+
+    Label {
+        id: dest_position
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: goal_name.bottom
+        anchors.margins: 15
+        font.pixelSize: 22
+        text: gpsconverter.coordinateAsString(dest_latitude, dest_longitude)
+    }
     
     Label {
         id: distance
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: goal_name.bottom
+        anchors.top: dest_position.bottom
         anchors.topMargin: 15
         font.pixelSize: 42
         text: formatDistance(appWindow.distance)
@@ -59,6 +68,7 @@ Page {
         id: compassBackground
         source: "images/compass_bg.png"
         anchors.centerIn: parent
+        anchors.topMargin: 15
 
         Image{
             id: compassNeedle

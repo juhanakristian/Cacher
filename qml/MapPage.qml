@@ -13,6 +13,18 @@ Page {
             anchors.left: parent.left
             onClicked: pageStack.pop()
         }
+        /*ToolIcon { */
+        /*    id: centerToGPS*/
+        /*    platformIconId: "toolbar-reply";*/
+        /*    anchors.right: parent.right*/
+        /*    onClicked: map.setCenter(gps_latitude, gps_longitude)*/
+        /*}*/
+        /*ToolIcon { */
+        /*    id: centerToCache*/
+        /*    platformIconId: "toolbar-forward";*/
+        /*    anchors.right: centerToGPS.left*/
+        /*    onClicked: map.setCenter(dest_latitude, dest_longitude)*/
+        /*}*/
     }
 
     orientationLock: PageOrientation.LockPortrait
@@ -77,6 +89,18 @@ Page {
     /*        }*/
     /*    }*/
     /*}*/
+
+    Button {
+        id: followButton
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: 15
+        checkable: true
+        width: height
+        z: 10 
+        iconSource: "images/follow_icon.png"
+        onClicked: map.follow = followButton.checked
+    }
 
     PinchArea {
         id: pinchArea
