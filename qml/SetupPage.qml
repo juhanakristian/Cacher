@@ -59,7 +59,7 @@ Page {
             anchors.margins: 10
 
             Label{
-                text: "Geocache name"
+                text: "Name"
                 wrapMode: Text.WordWrap
             }
 
@@ -72,7 +72,7 @@ Page {
 
 
             Label{
-                text: "Latitude in degrees"
+                text: "Latitude as decimal"
                 wrapMode: Text.WordWrap
             }
 
@@ -84,7 +84,7 @@ Page {
             }
 
             Label{
-                text: "Longitude in degrees"
+                text: "Longitude as decimal"
                 wrapMode: Text.WordWrap
             }
 

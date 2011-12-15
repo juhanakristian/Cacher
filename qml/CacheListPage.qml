@@ -13,7 +13,7 @@ Page {
         }
         ToolIcon {
             id: helpIcon
-            platformIconId: "toolbar-tag";
+            iconSource: "images/toolbar_icon_about.png"
             onClicked: pageStack.push(aboutPage)
             anchors.right: parent===undefined ? undefined : addIcon.left
         }

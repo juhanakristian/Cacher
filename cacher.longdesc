@@ -1,4 +1,11 @@
-This file should contain a writeup describing what your application does,
-and how to use it. The content of this file goes into the long_description
-field of setup.py, which in turn becomes the long version of the Description
-field in the debian/control file of the project.
+Cacher is a simple app for finding geocaches.
+
+Caches can be added by hand or by placing LOC-files to the applications
+directory on the device. Cacher shows the caches on the device as
+a simple list where the user can choose which cache they want to find.
+
+When searching for a cache the application shows a compass which with
+bearing and distance to the cache. The app also features a map
+with car routing to the selected cache.
+
+Find and download geocaches from geocaching.com

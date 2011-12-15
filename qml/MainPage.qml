@@ -11,7 +11,7 @@ Page {
             onClicked: pageStack.pop()
         }
         ToolIcon{
-            platformIconId: "toolbar-gallery"
+            iconSource: "images/toolbar_icon_map.png"
             anchors.right: parent.right
             onClicked: pageStack.push(mapPage)
         }
@@ -67,8 +67,8 @@ Page {
     Image {
         id: compassBackground
         source: "images/compass_bg.png"
-        anchors.centerIn: parent
-        anchors.topMargin: 15
+        y: (parent.height / 2) - (compassBackground.height / 2) + 25
+        anchors.horizontalCenter: parent.horizontalCenter
 
         Image{
             id: compassNeedle
@@ -100,8 +100,8 @@ Page {
     Label {
         id: position
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 30
+        anchors.top: compassBackground.bottom
+        anchors.topMargin: 30
         font.pixelSize: 32
         text: gpsconverter.coordinateAsString(gps_latitude, gps_longitude)
     }
