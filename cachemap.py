@@ -12,48 +12,32 @@ gps_icon_path = "/usr/share/cacher/qml/images/gps_marker.png"
 CAR = 1
 WALK = 2
 
-class CacheMap(QDeclarativeItem):
-    def __init__(self):
-        QDeclarativeItem.__init__(self)
+class CacheMap(QGraphicsGeoMap):
+    def __init__(self, parent = None):
         self.serviceProvider = QGeoServiceProvider("nokia")
-        self.geomap = QGraphicsGeoMap(self.serviceProvider.mappingManager(), self)
+        self.mappingManager = self.serviceProvider.mappingManager()
+        QGraphicsGeoMap.__init__(self, self.mappingManager)
         self.gps_coordinate = QGeoCoordinate()
-        self.routingMode = CAR
+        self.gps_marker = None
         self.lockOnGPS = False
-        self.createGPSMarker()
 
+    @QtCore.Slot()
     def createGPSMarker(self):
-        self.gps_marker = QGeoMapPixmapObject()
+        self.gps_marker = QGeoMapPixmapObject(QGeoCoordinate(64, 24))
         self.gps_marker.setPixmap(QPixmap(gps_icon_path))
         self.gps_marker.setOffset(QPoint(-12, -12))
         self.gps_marker.setZValue(10)
-        self.geomap.addMapObject(self.gps_marker)
-
-    def geometryChanged(self, new, old):
-        self.geomap.setGeometry(new) 
+        self.addMapObject(self.gps_marker)
 
     def _center(self):
-        return self.geomap.center()
+        return self.center()
 
     def setCenterGC(self, c):
-        self.geomap.setCenter(c)
+        self.setCenter(c)
 
     @QtCore.Slot(float, float)
-    def setCenter(self, lat, lon):
-        self.setCenterGC(QGeoCoordinate(lat, lon))
-
-    def _zoomLevel(self):
-        return self.geomap.zoomLevel()
-
-    def setZoomLevel(self, z):
-        self.geomap.setZoomLevel(z)
-
-    @QtCore.Slot(float, float)
-    def pan(self, dx, dy):
-        c = self.geomap.coordinateToScreenPosition(self.geomap.center())
-        c = c + QtCore.QPointF(dx, dy)
-        gc = self.geomap.screenPositionToCoordinate(c)
-        self.geomap.setCenter(gc)
+    def setCenterF(self, lat, lon):
+        self.setCenter(QGeoCoordinate(lat, lon))
 
     @QtCore.Slot(str)
     def setRoute(self, route):
@@ -73,7 +57,7 @@ class CacheMap(QDeclarativeItem):
         pen.setWidth(5)
         self.route_object.setPen(pen)
         self.route_object.setZValue(1)
-        self.geomap.addMapObject(self.route_object)
+        self.addMapObject(self.route_object)
 
 
     @QtCore.Slot(float, float)
@@ -82,11 +66,11 @@ class CacheMap(QDeclarativeItem):
         po.setPixmap(QPixmap(cache_icon_path))
         po.setOffset(QPoint(-27, -60))
         po.setZValue(10)
-        self.geomap.addMapObject(po)
+        self.addMapObject(po)
 
     @QtCore.Slot()
     def clearCaches(self):
-        self.geomap.clearMapObjects()
+        self.clearMapObjects()
         self.createGPSMarker()
 
     @QtCore.Slot(float, float)
@@ -114,15 +98,14 @@ class CacheMap(QDeclarativeItem):
 
     def setLock(self, l):
         self.lockOnGPS = l
+        self.setCenterGC(self.gps_coordinate)
 
     def updateGPSMarker(self):
-        self.gps_marker.setCoordinate(self.gps_coordinate)
+        if self.gps_marker:
+            self.gps_marker.setCoordinate(self.gps_coordinate)
         if self.lockOnGPS:
             self.setCenterGC(self.gps_coordinate)
 
-
-
-    zoomLevel = QtCore.Property(float, _zoomLevel, setZoomLevel)
     gpsLatitude = QtCore.Property(float, _gpsLatitude, setGPSLatitude)
     gpsLongitude = QtCore.Property(float, _gpsLongitude, setGPSLongitude)
     follow = QtCore.Property(bool, _lock, setLock)

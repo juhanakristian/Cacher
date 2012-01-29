@@ -4,7 +4,7 @@ import sys
 
 from PySide import QtCore
 from PySide import QtGui
-from PySide import QtDeclarative
+from PySide.QtDeclarative import *
 import os
 
 from PySide import QtOpenGL
@@ -37,17 +37,19 @@ class GPSCoordinateConverter(QtCore.QObject):
         s = s.replace(",", " E ")
         return s
 
-class Cacher(QtDeclarative.QDeclarativeView):
-    def __init__(self):
-        QtDeclarative.QDeclarativeView.__init__(self)
+class Cacher(QDeclarativeView):
+    def __init__(self, parent = None):
+        QDeclarativeView.__init__(self, parent)
         #qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
 
         appDir = QtCore.QDir(appdirectory)
         if not appDir.exists():
             QtCore.QDir("/home/user/MyDocs").mkdir("Cacher") #WTF?
 
+        print "Openging database"
         self.open_database(appdirectory + "/geocache.db") 
 
+        print "Creating model"
         self.model = SqlListModel(self)
         self.model.setTable("caches")
         self.model.generate_roles()
@@ -55,6 +57,7 @@ class Cacher(QtDeclarative.QDeclarativeView):
 
         self.parse_new_caches()
 
+        print "Initializing compass and routehandler"
         self.compass = GPSCompass(self)
         self.routehandler = RouteHandler(self)
         self.gpsconverter = GPSCoordinateConverter(self)
@@ -64,7 +67,7 @@ class Cacher(QtDeclarative.QDeclarativeView):
         context.setContextProperty("geocaches", self.model)
         context.setContextProperty("routehandler", self.routehandler)
         context.setContextProperty("gpsconverter", self.gpsconverter)
-        self.setSource('/usr/share/cacher/qml/main.qml')
+        print "Constructor ready"
 
     def open_database(self, path):
         self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
@@ -95,6 +98,7 @@ class Cacher(QtDeclarative.QDeclarativeView):
             f = open(locfile)
             xml = ' '.join(f.readlines())
             parser.parse(xml)
+            os.rename(locfile, locfile.replace(".loc", ".tmp"))
 
     def add_caches(self, clist):
         cacheids = self.model.cacheids()
@@ -109,9 +113,10 @@ def main():
     qmlRegisterType(CacheMap, "UIElements", 1, 0, "CacheMap")
     cacher = Cacher()
 
-    glw = QtOpenGL.QGLWidget()
-    cacher.setViewport(glw)
+    #glw = QtOpenGL.QGLWidget()
+    #cacher.setViewport(glw)
 
+    cacher.setSource('/usr/share/cacher/qml/main.qml')
     cacher.showFullScreen()
     sys.exit(app.exec_())
 

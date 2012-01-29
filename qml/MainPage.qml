@@ -1,5 +1,5 @@
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 
 Page {
     id: mainPage
@@ -27,10 +27,6 @@ Page {
             return d + " meters";
     }
 
-    /*Image{
-        source: "images/bg.png"
-        anchors.centerIn: parent
-    }*/
 
     Text {
         id: goal_name
@@ -85,16 +81,17 @@ Page {
         Image {
             id: compassCap
             source: "images/compass_cap.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: (parent.height / 2) - (height / 2) - 2
+            y: (parent.height / 2) - (height / 2) - 1
+            x: (parent.width / 2) - (width / 2)
         }
 
-        Image {
-            id: compassGloss
-            source: "images/compass_gloss.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: (parent.height / 2) - (height / 2) - 12
-        }
+        //Disable for performance reasons
+        /*Image {*/
+        /*    id: compassGloss*/
+        /*    source: "images/compass_gloss.png"*/
+        /*    anchors.horizontalCenter: parent.horizontalCenter*/
+        /*    y: (parent.height / 2) - (height / 2) - 12*/
+        /*}*/
     }
 
     Label {
@@ -103,7 +100,7 @@ Page {
         anchors.top: compassBackground.bottom
         anchors.topMargin: 30
         font.pixelSize: 32
-        text: gpsconverter.coordinateAsString(gps_latitude, gps_longitude)
+        text: (compass.gps) ? gpsconverter.coordinateAsString(gps_latitude, gps_longitude) : "No GPS"
     }
 
 }

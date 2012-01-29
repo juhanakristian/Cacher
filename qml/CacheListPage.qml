@@ -1,5 +1,5 @@
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 
 Page {
     id: cacheListPage    
@@ -19,20 +19,13 @@ Page {
         }
     }
 
+    Component.onCompleted: console.log("CachelistPage")
+
     /*Image{
         source: "images/bg.png"
         anchors.centerIn: parent
     }*/
 
-    Label {
-        id: nocaches
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        text: "No saved geocaches"
-        font.pixelSize: 32
-        visible: (cacheList.model.count == 0) 
-    }
 
     ListView {
         id: cacheList
@@ -45,6 +38,7 @@ Page {
             anchors.bottomMargin: 20
             height: 105
             Label {
+                id: headerLabel
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 10
@@ -53,10 +47,20 @@ Page {
             }
 
             Rectangle {
+                id: separator
                 height: 1
                 width: parent.width
                 color: "#666666"
                 anchors.bottom: parent.bottom
+            }
+            Label {
+                id: nocaches
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: separator.bottom
+                anchors.topMargin: 20
+                text: "No saved geocaches"
+                font.pixelSize: 32
+                visible: (geocaches.count == 0) 
             }
         }
         delegate: Item {

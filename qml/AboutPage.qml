@@ -1,5 +1,5 @@
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 
 Page {
     id: aboutPage
@@ -36,6 +36,7 @@ Page {
     }
 
     Text{
+        id: aboutText
         anchors.top: versionText.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -52,4 +53,15 @@ Page {
         
     }
 
+    Text{
+        id: copyrightText
+        textFormat: Text.RichText
+        anchors.top: aboutText.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 20
+        text: "© 2011 Juhana Jauhiainen"
+        color: "#ffffff"
+        font.pixelSize: 18
+        font.family: "Nokia Pure Text" 
+    }
 }

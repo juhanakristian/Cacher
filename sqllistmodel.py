@@ -3,6 +3,7 @@ from PySide import QtCore
 from PySide import QtSql
 
 class SqlListModel(QtSql.QSqlTableModel):
+    updated = QtCore.Signal()
     def __init__(self, parent):
         QtSql.QSqlTableModel.__init__(self, parent)
         self.roles = dict()
@@ -16,7 +17,6 @@ class SqlListModel(QtSql.QSqlTableModel):
         for i in range(self.columnCount()):
             self.roles[Qt.UserRole + i] = str(self.headerData(i, Qt.Horizontal))
         self.setRoleNames(self.roles)
-        print "ROLES:", self.roles
 
 
     def data(self, index, role):
@@ -44,6 +44,7 @@ class SqlListModel(QtSql.QSqlTableModel):
                 h[key] = v
             self.cache[i] = h
         self.select()
+        self.updated.emit()
 
     @QtCore.Slot(str, float, float)
     def add(self, name, latitude, longitude, cacheid=""):
@@ -94,3 +95,8 @@ class SqlListModel(QtSql.QSqlTableModel):
         for ind in indices:
             ids.append(self.data(ind, nkey))
         return ids
+
+    def _count(self):
+        return len(self.cache)
+
+    count = QtCore.Property(int, _count, notify=updated)

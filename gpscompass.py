@@ -18,12 +18,19 @@ class GPSCompass(QtCore.QObject):
         self.coordinate = QGeoCoordinate()
         self.compass = QCompass(self)
         self.compass.readingChanged.connect(self.compassReadingChanged)
+        self.compass.setDataRate(10)
         self.compass.start()
         self.compassAzimuth = 0
+        self.gpsactive = False
 
     location_changed = QtCore.Signal()
     bearing_changed = QtCore.Signal()
     destination_changed = QtCore.Signal()
+    gps_activated = QtCore.Signal()
+
+    def __del__(self):
+        self.compass.stop()
+        self.positionSource.stopUpdates()
 
     @QtCore.Slot()
     def compassReadingChanged(self):
@@ -39,6 +46,10 @@ class GPSCompass(QtCore.QObject):
 
     def locationUpdated(self, update):
         self.currentPosition = update.coordinate()
+        if not self.gpsactive:
+            self.gpsactive = True
+            self.gps_activated.emit()
+
         self.location_changed.emit()
         self.bearing_changed.emit()
 
@@ -64,10 +75,14 @@ class GPSCompass(QtCore.QObject):
     def _longitude(self):
         return self.currentPosition.longitude()
 
+    def _gpsfix(self):
+        return self.gpsactive
+
     distance = QtCore.Property(int, _distance, notify=location_changed)
     bearing = QtCore.Property(int, _bearing, notify=bearing_changed)
     latitude = QtCore.Property(float, _latitude, notify=location_changed)
     longitude = QtCore.Property(float, _longitude, notify=location_changed)
     dest_latitude = QtCore.Property(float, _destinationLatitude, notify=destination_changed)
     dest_longitude = QtCore.Property(float, _destinationLongitude, notify=destination_changed)
+    gps = QtCore.Property(bool, _gpsfix, notify=gps_activated)
     

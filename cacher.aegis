@@ -1,5 +1,9 @@
 <aegis>
     <request>
+        <credential name="CAP::net_bind_service" />
+        <credential name="CAP::net_broadcast" />
+        <credential name="CAP::net_admin" />
+        <credential name="CAP::net_raw" />
         <credential name="Location" />
         <credential name="GRP::metadata-users" />
         <credential name="TrackerReadAccess" />
